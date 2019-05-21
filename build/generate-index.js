@@ -3,28 +3,34 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- *
+ * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
+ * 
  * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
  */
 
-/**
- * This file contains path definitions for build scripts.
- */
+const glob = require('glob');
+const fs = require('fs');
 const path = require('path');
-const rootPath = path.resolve(__dirname, '..');
+const {rootPath, srcDir} = require('./path');
 
-module.exports = {
-    rootPath,
-    srcDir: path.resolve(rootPath, 'src'),
-    outputDir: path.resolve(rootPath, 'dist'),
-    nodeModulesDir: path.resolve(rootPath, 'node_modules')
-};
+const files = glob.sync(path.join(srcDir, '*.js'));
+
+const indexFileContent = files.map(file => {
+    const moduleName = path.basename(file, '.js');
+    const moduleExportName = moduleName.replace(/\.(.)/g, (fullMatch, nextLetter) => nextLetter.toUpperCase());
+    return `export const ${moduleExportName} = require('./${path.relative(rootPath, path.join(srcDir, moduleName))}');`;
+}).join('\n');
+
+fs.writeFile(path.join(rootPath, 'index.js'), indexFileContent, {flag: 'w'}, err => {
+    if (err) {
+        throw err;
+    }
+});
