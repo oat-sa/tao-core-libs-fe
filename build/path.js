@@ -23,7 +23,6 @@ const path = require('path');
 const rootPath = path.resolve(__dirname, '..');
 
 module.exports = {
-    rootPath,
     srcDir: path.resolve(rootPath, 'src'),
     outputDir: path.resolve(rootPath, 'dist'),
     nodeModulesDir: path.resolve(rootPath, 'node_modules')

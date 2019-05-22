@@ -2,16 +2,14 @@
   "name": "@oat-sa/tao-core-libs",
   "version": "0.1.0",
   "description": "TAO Frontent Core Libraries",
-  "main": "index.js",
   "files": [
     "dist",
-    "src",
-    "index.js"
+    "src"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup --config ./build/rollup.config.js",
-    "prepare": "node ./build/generate-index.js && npm run build"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -35,7 +33,6 @@
     "moment": "^2.24.0"
   },
   "devDependencies": {
-    "glob": "^7.1.4",
     "rollup": "^1.12.3",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-copy": "^2.0.1",
