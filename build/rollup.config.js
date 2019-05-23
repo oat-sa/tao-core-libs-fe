@@ -41,7 +41,7 @@ export default moduleNames.map(name => {
             commonjs(),
             copy({
                 targets: {
-                  [path.join(nodeModulesDir, 'jquery', 'dist', 'jquery.js')]: 'dist/jquery.js',
+                  [path.join(nodeModulesDir, 'jquery', 'jquery.js')]: 'dist/jquery.js',
                   [path.join(nodeModulesDir, 'moment', 'min', 'moment-with-locales.js')]: 'dist/moment.js',
                   [path.join(nodeModulesDir, 'handlebars', 'dist', 'handlebars.amd.js')]: 'dist/handlebars.js',
                   [path.join(nodeModulesDir, 'handlebars', 'dist', 'handlebars.runtime.amd.js')]: 'dist/handlebars.runtime.js',
