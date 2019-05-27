@@ -21,32 +21,38 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import copy from 'rollup-plugin-copy';
 
-const { srcDir, outputDir, nodeModulesDir } = require('./path');
+const { outputDir, nodeModulesDir } = require('./path');
 
-const moduleNames = [
-    'lodash'
-];
+const moduleNames = {
+    lodash: 'lodash',
+    handlebars: 'handlebars/dist/cjs/handlebars',
+    'handlebars.runtime': 'handlebars/dist/cjs/handlebars.runtime',
+    jquery: 'jquery/jquery'
+};
 
-export default moduleNames.map(name => {
-    const input = `${path.join(srcDir, name)}.js`;
+export default Object.keys(moduleNames).map(name => {
     return {
-        input,
+        input: require.resolve(moduleNames[name]),
         output: {
-            dir: outputDir,
-            format: 'amd',
-            name
+            file: path.join(outputDir, `${name}.js`),
+            format: 'amd'
         },
         plugins: [
             nodeResolve(),
             commonjs(),
             copy({
                 targets: {
-                  [path.join(nodeModulesDir, 'jquery', 'jquery.js')]: 'dist/jquery.js',
-                  [path.join(nodeModulesDir, 'moment', 'min', 'moment-with-locales.js')]: 'dist/moment.js',
-                  [path.join(nodeModulesDir, 'handlebars', 'dist', 'handlebars.amd.js')]: 'dist/handlebars.js',
-                  [path.join(nodeModulesDir, 'handlebars', 'dist', 'handlebars.runtime.amd.js')]: 'dist/handlebars.runtime.js',
+                    // [path.join(nodeModulesDir, 'jquery', 'jquery.js')]: 'dist/jquery.js',
+                    [path.join(nodeModulesDir, 'moment', 'min', 'moment-with-locales.js')]: 'dist/moment.js'
+                    // [path.join(nodeModulesDir, 'handlebars', 'dist', 'handlebars.amd.js')]: 'dist/handlebars.js',
+                    // [path.join(
+                    //     nodeModulesDir,
+                    //     'handlebars',
+                    //     'dist',
+                    //     'handlebars.runtime.amd.js'
+                    // )]: 'dist/handlebars.runtime.js'
                 }
-              })
+            })
         ]
     };
 });
