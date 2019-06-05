@@ -1,3 +1,25 @@
+/**
+ * UUID generator
+ *
+ * This is a modified version of Robert Kieffer's Math.uuid
+ * from http://www.broofa.com/2008/09/javascript-uuid-function/
+ *
+ * It differs in three ways from the original work:
+ * - uuid is no longer attached to the Math object
+ * - script is now written in require.js style
+ * - alternative implementations have been removed
+ *
+ * Additionally the usage examples have been adapted to reflect these changes.
+ *
+ * Original credits:
+ * Math.uuid.js (v1.4)
+ * http://www.broofa.com
+ * mailto:robert@broofa.com
+ *
+ * Copyright (c) 2010 Robert Kieffer
+ * Dual licensed under the MIT and GPL licenses.
+ *
+ */
 
 // Private array of chars to use
 var CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
