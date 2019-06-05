@@ -24,6 +24,5 @@ const rootPath = path.resolve(__dirname, '..');
 
 module.exports = {
     srcDir: path.resolve(rootPath, 'src'),
-    outputDir: path.resolve(rootPath, 'dist'),
-    nodeModulesDir: path.resolve(rootPath, 'node_modules')
+    outputDir: path.resolve(rootPath, 'dist')
 };

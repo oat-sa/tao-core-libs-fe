@@ -17,42 +17,24 @@
  */
 
 import path from 'path';
-import nodeResolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import copy from 'rollup-plugin-copy';
+import glob from 'glob';
 
-const { outputDir, nodeModulesDir } = require('./path');
+const { srcDir, outputDir } = require('./path.js');
+const inputs = glob.sync(path.join(srcDir, '**', '*.js'));
 
-const moduleNames = {
-    lodash: 'lodash',
-    handlebars: 'handlebars/dist/cjs/handlebars',
-    'handlebars.runtime': 'handlebars/dist/cjs/handlebars.runtime',
-    jquery: 'jquery/jquery'
-};
+export default inputs.map( input => {
+    const name = path.relative(srcDir, input).replace(/\.js$/, '');
+    const dir = path.dirname(path.relative(srcDir, input));
 
-export default Object.keys(moduleNames).map(name => {
     return {
-        input: require.resolve(moduleNames[name]),
+        input,
         output: {
-            file: path.join(outputDir, `${name}.js`),
-            format: 'amd'
-        },
-        plugins: [
-            nodeResolve(),
-            commonjs(),
-            copy({
-                targets: {
-                    // [path.join(nodeModulesDir, 'jquery', 'jquery.js')]: 'dist/jquery.js',
-                    [path.join(nodeModulesDir, 'moment', 'min', 'moment-with-locales.js')]: 'dist/moment.js'
-                    // [path.join(nodeModulesDir, 'handlebars', 'dist', 'handlebars.amd.js')]: 'dist/handlebars.js',
-                    // [path.join(
-                    //     nodeModulesDir,
-                    //     'handlebars',
-                    //     'dist',
-                    //     'handlebars.runtime.amd.js'
-                    // )]: 'dist/handlebars.runtime.js'
-                }
-            })
-        ]
+            dir: path.join(outputDir, dir),
+            format: 'umd',
+            name,
+            globals: {
+                'lib/uuid': 'lib/uuid',
+            }
+        }
     };
 });
