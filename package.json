@@ -1,6 +1,6 @@
 {
   "name": "@oat-sa/tao-core-libs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "TAO Frontent Core Libraries",
   "files": [
     "dist"
@@ -11,6 +11,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup --config ./build/rollup.config.js",
+    "build:watch": "rollup --config ./build/rollup.config.js --watch",
     "lint": "eslint build/",
     "prepare": "npm run build"
   },
