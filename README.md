@@ -5,6 +5,7 @@ TAO Frontent Core Libraries
 ## Available scripts in the project:
 
 - `npm run build`: put libraries in AMD format into `dist` directory
+- `npm run build:watch`: put libraries in AMD format into `dist` directory and watch for changes
 - `npm run lint` : verify coding rules
 
 ## Shared libraries from npm
