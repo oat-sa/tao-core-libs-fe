@@ -4,8 +4,8 @@
  */
 
 // Inspired by base2 and Prototype
-let initializing = false;
-const fnTest = /xyz/.test(function() {
+var initializing = false,
+    fnTest = /xyz/.test(function() {
         xyz;
     }) ? /\b_super\b/ : /.*/;
 // The base Class implementation (does nothing)
