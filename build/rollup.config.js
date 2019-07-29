@@ -31,10 +31,8 @@ export default inputs.map( input => {
         output: {
             dir: path.join(outputDir, dir),
             format: 'umd',
-            name,
-            globals: {
-                'lib/uuid': 'lib/uuid',
-            }
-        }
+            name
+        },
+        external : ['jquery', 'lodash', 'i18n']
     };
 });

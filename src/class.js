@@ -64,4 +64,8 @@ Class.extend = function(prop) {
     return Class;
 };
 
+/**
+ * @exports
+ */
+export default Class;
 
