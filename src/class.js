@@ -4,8 +4,8 @@
  */
 
 // Inspired by base2 and Prototype
-var initializing = false,
-    fnTest = /xyz/.test(function() {
+let initializing = false;
+const fnTest = /xyz/.test(function() {
         xyz;
     }) ? /\b_super\b/ : /.*/;
 // The base Class implementation (does nothing)
@@ -63,9 +63,4 @@ Class.extend = function(prop) {
 
     return Class;
 };
-
-/**
- * @exports
- */
-export default Class;
 
