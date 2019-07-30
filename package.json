@@ -1,9 +1,10 @@
 {
   "name": "@oat-sa/tao-core-libs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "TAO Frontent Core Libraries",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "publishConfig": {
     "access": "public"
