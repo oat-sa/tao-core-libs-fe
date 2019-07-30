@@ -21,8 +21,12 @@
  */
 const path = require('path');
 const rootPath = path.resolve(__dirname, '..');
+const srcDir = path.join(rootPath, 'src');
 
 module.exports = {
-    srcDir: path.resolve(rootPath, 'src'),
-    outputDir: path.resolve(rootPath, 'dist')
+    srcDir,
+    outputDir: path.join(rootPath, 'dist'),
+    aliases: {
+        lib: srcDir
+    }
 };
