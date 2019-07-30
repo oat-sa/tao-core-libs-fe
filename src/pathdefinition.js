@@ -13,7 +13,7 @@ requirejs.config({
 
         // locals
         'lib/unmatrix': '/node_modules/@oat-sa/tao-core-libs/dist/unmatrix/unmatrix',
-        class: '/node_modules/@oat-sa/tao-core-libs/dist',
+        class: '/node_modules/@oat-sa/tao-core-libs/dist/class',
         lib: '/node_modules/@oat-sa/tao-core-libs/dist'
     }
 });
