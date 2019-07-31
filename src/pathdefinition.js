@@ -10,6 +10,11 @@ requirejs.config({
         'lib/expr-eval/expr-eval': '/node_modules/@oat-sa/expr-eval/dist/bundle',
         async: '/node_modules/async/lib/async',
         'lib/decimal/decimal': '/node_modules/decimal.js/decimal',
+        'lib/gamp/gamp': '/node_modules/gamp/src/gamp',
+        select2: '/node_modules/select2/select2',
+        interact: '/node_modules/interactjs/dist/interact',
+        'lib/popper/tooltip': '/node_modules/tooltip.js/dist/umd/tooltip',
+        popper: '/node_modules/popper.js/dist/umd/popper',
 
         // locals
         'lib/unmatrix': '/node_modules/@oat-sa/tao-core-libs/dist/unmatrix/unmatrix',
