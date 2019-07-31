@@ -20,11 +20,18 @@ import path from 'path';
 import glob from 'glob-promise';
 import alias from 'rollup-plugin-alias';
 import handlebarsPlugin from 'rollup-plugin-handlebars-plus';
+import copy from 'rollup-plugin-copy';
 import { copyFile, mkdirp } from 'fs-extra';
 const Handlebars = require('handlebars');
 
 const { srcDir, outputDir, aliases } = require('./path.js');
-const inputs = glob.sync(path.join(srcDir, '**', '*.js'));
+let inputs = glob.sync(path.join(srcDir, '**', '*.js'));
+
+/**
+ * class.js cannot be built, because it is not 'use strict' valid
+ * This file will be just copied
+ */
+inputs = inputs.filter(file => !file.endsWith('class.js'));
 
 /**
  * Support of handlebars 1.3.0
@@ -66,6 +73,9 @@ export default inputs.map(input => {
                     module: Handlebars
                 },
                 templateExtension: '.tpl'
+            }),
+            copy({
+                targets: [{ src: path.join(srcDir, 'class.js'), dest: outputDir }]
             })
         ]
     };
