@@ -17,10 +17,9 @@ export default {
     raphael: '/node_modules/raphael/raphael',
 
     // locals
-    'lib/unmatrix': '/node_modules/@oat-sa/tao-core-libs/dist/unmatrix',
     class: '/node_modules/@oat-sa/tao-core-libs/dist/class',
-    'scale.raphael': '/lib/raphael/scale.raphael',
-    lib: '/node_modules/@oat-sa/tao-core-libs/dist',
-    nouislider: '/lib/sliders/jquery.nouislider',
-    iframeNotifier: '/lib/iframeNotifier'
+    'scale.raphael': '/node_modules/@oat-sa/tao-core-libs/dist/raphael/scale.raphael',
+    nouislider: '/node_modules/@oat-sa/tao-core-libs/dist/sliders/jquery.nouislider',
+    iframeNotifier: '/node_modules/@oat-sa/tao-core-libs/dist/iframeNotifier',
+    lib: '/node_modules/@oat-sa/tao-core-libs/dist'
 };
