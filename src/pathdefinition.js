@@ -17,7 +17,7 @@ requirejs.config({
         popper: '/node_modules/popper.js/dist/umd/popper',
 
         // locals
-        'lib/unmatrix': '/node_modules/@oat-sa/tao-core-libs/dist/unmatrix/unmatrix',
+        'lib/unmatrix': '/node_modules/@oat-sa/tao-core-libs/dist/unmatrix',
         class: '/node_modules/@oat-sa/tao-core-libs/dist/class',
         lib: '/node_modules/@oat-sa/tao-core-libs/dist'
     }
