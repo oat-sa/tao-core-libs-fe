@@ -17,50 +17,52 @@
  *
  *
  */
-define(['lodash'], function(_) {
-    function hasAccess(windowElt) {
-        //if we are in the same domain, the parent must place the __knownParent__ variable
-        return !!(window.__knownParent__ && windowElt && windowElt !== window);
-    }
+import _ from 'lodash';
+
+function hasAccess(windowElt) {
+    //if we are in the same domain, the parent must place the __knownParent__ variable
+    return !!(window.__knownParent__ && windowElt && windowElt !== window);
+}
+
+/**
+ * Use to notify an event from an iframe to it's parent.
+ * If you're not in an iframe, nothing will happen.
+ *
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ * @exports iframeNotifier
+ */
+var xDomMessaging = {
+    /**
+     * Notify the parent window's document
+     * @param {String} eventName - the name of the
+     * @param {Array} [args] - event arguments
+     */
+    parent: function(eventName, args) {
+        _.defer(function() {
+            //in next tick for thread safety
+            if (hasAccess(window.parent) && window.parent.$) {
+                var _$ = window.parent.$; //parent window jQuery instance
+                _$(window.parent.document).trigger(eventName, args || []);
+            }
+        });
+    },
 
     /**
-     * Use to notify an event from an iframe to it's parent.
-     * If you're not in an iframe, nothing will happen.
-     *
-     * @author Bertrand Chevrier <bertrand@taotesting.com>
-     * @exports iframeNotifier
+     * Notify the top window's document
+     * @param {String} eventName - the name of the
+     * @param {Array} [args] - event arguments
      */
-    var xDomMessaging = {
-        /**
-         * Notify the parent window's document
-         * @param {String} eventName - the name of the
-         * @param {Array} [args] - event arguments
-         */
-        parent: function(eventName, args) {
-            _.defer(function() {
-                //in next tick for thread safety
-                if (hasAccess(window.parent) && window.parent.$) {
-                    var _$ = window.parent.$; //parent window jQuery instance
-                    _$(window.parent.document).trigger(eventName, args || []);
-                }
-            });
-        },
+    top: function(eventName, args) {
+        _.defer(function() {
+            //in next tick for thread safety
+            if (hasAccess(window.top) && window.top.$) {
+                var _$ = window.top.$; //parent window jQuery instance
+                _$(window.top.document).trigger(eventName, args || []);
+            }
+        });
+    }
+};
 
-        /**
-         * Notify the top window's document
-         * @param {String} eventName - the name of the
-         * @param {Array} [args] - event arguments
-         */
-        top: function(eventName, args) {
-            _.defer(function() {
-                //in next tick for thread safety
-                if (hasAccess(window.top) && window.top.$) {
-                    var _$ = window.top.$; //parent window jQuery instance
-                    _$(window.top.document).trigger(eventName, args || []);
-                }
-            });
-        }
-    };
+export default xDomMessaging;
 
-    return xDomMessaging;
-});
+

@@ -14,9 +14,13 @@ export default {
     interact: '/node_modules/interactjs/dist/interact',
     'lib/popper/tooltip': '/node_modules/tooltip.js/dist/umd/tooltip',
     popper: '/node_modules/popper.js/dist/umd/popper',
+    raphael: '/node_modules/raphael/raphael',
 
     // locals
     'lib/unmatrix': '/node_modules/@oat-sa/tao-core-libs/dist/unmatrix',
     class: '/node_modules/@oat-sa/tao-core-libs/dist/class',
-    lib: '/node_modules/@oat-sa/tao-core-libs/dist'
+    'scale.raphael': '/lib/raphael/scale.raphael',
+    lib: '/node_modules/@oat-sa/tao-core-libs/dist',
+    nouislider: '/lib/sliders/jquery.nouislider',
+    iframeNotifier: '/lib/iframeNotifier'
 };
