@@ -17,24 +17,79 @@
  */
 
 import path from 'path';
-import glob from 'glob';
+import glob from 'glob-promise';
+import alias from 'rollup-plugin-alias';
+import handlebarsPlugin from 'rollup-plugin-handlebars-plus';
+import copy from 'rollup-plugin-copy';
+import { copyFile, mkdirp } from 'fs-extra';
+const Handlebars = require('handlebars');
 
-const { srcDir, outputDir } = require('./path.js');
-const inputs = glob.sync(path.join(srcDir, '**', '*.js'));
+const { srcDir, outputDir, aliases } = require('./path.js');
+let inputs = glob.sync(path.join(srcDir, '**', '*.js'));
 
-export default inputs.map( input => {
-    const name = path.relative(srcDir, input).replace(/\.js$/, '');
+/**
+ * class.js cannot be built, because it is not 'use strict' valid
+ * This file will be just copied
+ */
+inputs = inputs.filter(file => !file.endsWith('class.js'));
+
+/**
+ * Support of handlebars 1.3.0
+ * TODO remove once migrated to hbs >= 3.0.0
+ */
+const originalVisitor = Handlebars.Visitor;
+Handlebars.Visitor = function() {
+    return originalVisitor.call(this);
+};
+Handlebars.Visitor.prototype = Object.create(originalVisitor.prototype);
+Handlebars.Visitor.prototype.accept = function() {
+    try {
+        originalVisitor.prototype.accept.apply(this, arguments);
+    } catch (e) {}
+};
+/* --------------------------------------------------------- */
+
+export default inputs.map(input => {
     const dir = path.dirname(path.relative(srcDir, input));
 
     return {
         input,
         output: {
             dir: path.join(outputDir, dir),
-            format: 'umd',
-            name,
-            globals: {
-                'lib/uuid': 'lib/uuid',
-            }
-        }
+            format: 'amd'
+        },
+        external: ['jquery', 'lodash', 'i18n', 'lib/gamp/gamp', 'handlebars', 'lib/dompurify/purify', 'raphael'],
+        plugins: [
+            alias({
+                resolve: ['.js', '.json', '.tpl'],
+                ...aliases
+            }),
+            handlebarsPlugin({
+                handlebars: {
+                    id: 'handlebars',
+                    options: {
+                        sourceMap: false
+                    },
+                    module: Handlebars
+                },
+                templateExtension: '.tpl'
+            }),
+            copy({
+                targets: [{ src: path.join(srcDir, 'class.js'), dest: outputDir }]
+            })
+        ]
     };
+});
+
+/**
+ * copy template files into dist, because other modules require them
+ * It is asyncronous and it was made with purpose to run parallely with build,
+ * because they do not effect each other
+ */
+glob(path.join(srcDir, '**', '*.tpl')).then(files => {
+    files.forEach(async file => {
+        const targetFile = path.resolve(outputDir, path.relative(srcDir, file));
+        await mkdirp(path.dirname(targetFile));
+        copyFile(file, targetFile);
+    });
 });
