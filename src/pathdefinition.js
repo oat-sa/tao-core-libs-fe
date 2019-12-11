@@ -1,5 +1,5 @@
 export default {
-    jquery: '/node_modules/jquery/jquery',
+    jquery: '/node_modules/jquery/dist/jquery',
     lodash: '/node_modules/lodash/lodash',
     moment: '/node_modules/moment/min/moment-with-locales',
     handlebars: '/node_modules/handlebars/dist/handlebars.amd',
