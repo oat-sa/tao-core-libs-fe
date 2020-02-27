@@ -121,9 +121,6 @@ switch (lang) {
     case 'tr':
         import('select2-origin/select2_locale_tr');
         break;
-    case 'ua':
-        import('select2-origin/select2_locale_ua');
-        break;
     case 'vi':
         import('select2-origin/select2_locale_vi');
         break;
