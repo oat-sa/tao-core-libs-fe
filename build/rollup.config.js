@@ -42,7 +42,16 @@ export default inputs.map(input => {
             dir: path.join(outputDir, dir),
             format: 'amd'
         },
-        external: ['jquery', 'lodash', 'i18n', 'lib/gamp/gamp', 'handlebars', 'lib/dompurify/purify', 'raphael'],
+        external: [
+            'jquery',
+            'lodash',
+            'i18n',
+            'lib/gamp/gamp',
+            'handlebars',
+            'lib/dompurify/purify',
+            'raphael',
+            'select2-origin'
+        ],
         plugins: [
             alias({
                 resolve: ['.js', '.json', '.tpl'],

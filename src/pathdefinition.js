@@ -10,11 +10,11 @@ export default {
     async: '/node_modules/async/lib/async',
     'lib/decimal/decimal': '/node_modules/decimal.js/decimal',
     'lib/gamp/gamp': '/node_modules/gamp/src/gamp',
-    select2: '/node_modules/select2/select2',
     interact: '/node_modules/interactjs/dist/interact',
     'lib/popper/tooltip': '/node_modules/tooltip.js/dist/umd/tooltip',
     popper: '/node_modules/popper.js/dist/umd/popper',
     raphael: '/node_modules/raphael/raphael',
+    'select2-origin': '/node_modules/select2',
 
     // locals
     class: '/node_modules/@oat-sa/tao-core-libs/dist/class',
