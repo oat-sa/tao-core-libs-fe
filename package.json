@@ -4,7 +4,8 @@
     "description": "TAO Frontent Core Libraries",
     "files": [
         "dist",
-        "src"
+        "src",
+        "lib"
     ],
     "publishConfig": {
         "access": "public"
