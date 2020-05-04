@@ -24,11 +24,8 @@ const rootPath = path.resolve(__dirname, '..');
 const srcDir = path.join(rootPath, 'src');
 
 module.exports = {
-    rootPath,
     srcDir,
     outputDir: path.join(rootPath, 'dist'),
-    scssVendorDir: path.resolve(rootPath, 'scss'),
-    nodeModulesDir: path.resolve(rootPath, 'node_modules'),
     aliases: {
         lib: srcDir
     }
