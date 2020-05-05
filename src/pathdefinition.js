@@ -14,7 +14,9 @@ export default {
     'lib/popper/tooltip': '/node_modules/tooltip.js/dist/umd/tooltip',
     popper: '/node_modules/popper.js/dist/umd/popper',
     raphael: '/node_modules/raphael/raphael',
-    'select2-origin': '/node_modules/select2',
+    select2: '/node_modules/select2/select2',
+    ckeditor: '/node_modules/@oat-sa/tao-core-libs/lib/ckeditor',
+    'lib/simulator': '/node_modules/@oat-sa/tao-core-libs/lib/simulator',
 
     // locals
     class: '/node_modules/@oat-sa/tao-core-libs/dist/class',
