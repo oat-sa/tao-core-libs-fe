@@ -18,7 +18,7 @@
 
 import path from 'path';
 import glob from 'glob-promise';
-import alias from 'rollup-plugin-alias';
+import alias from '@rollup/plugin-alias';
 import handlebarsPlugin from 'rollup-plugin-handlebars-plus';
 import wildcardExternal from '@oat-sa/rollup-plugin-wildcard-external';
 import copy from 'rollup-plugin-copy';
