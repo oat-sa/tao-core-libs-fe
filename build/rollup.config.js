@@ -46,10 +46,9 @@ export default inputs.map(input => {
         external: ['jquery', 'lodash', 'i18n', 'lib/gamp/gamp', 'handlebars', 'lib/dompurify/purify', 'raphael'],
         plugins: [
             wildcardExternal(['select2-origin/**']),
-            alias({
+            alias(Object.assign({
                 resolve: ['.js', '.json', '.tpl'],
-                ...aliases
-            }),
+            }, aliases)),
             handlebarsPlugin({
                 handlebars: {
                     id: 'handlebars',
