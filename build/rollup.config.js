@@ -21,6 +21,7 @@ import glob from 'glob-promise';
 import alias from '@rollup/plugin-alias';
 import handlebarsPlugin from 'rollup-plugin-handlebars-plus';
 import wildcardExternal from '@oat-sa/rollup-plugin-wildcard-external';
+import resolve from '@rollup/plugin-node-resolve';
 import copy from 'rollup-plugin-copy';
 import { copyFile, mkdirp } from 'fs-extra';
 const Handlebars = require('handlebars');
@@ -46,9 +47,15 @@ export default inputs.map(input => {
         external: ['jquery', 'lodash', 'i18n', 'lib/gamp/gamp', 'handlebars', 'lib/dompurify/purify', 'raphael'],
         plugins: [
             wildcardExternal(['select2-origin/**']),
-            alias(Object.assign({
-                resolve: ['.js', '.json', '.tpl'],
-            }, aliases)),
+            resolve({
+                 extensions: [ '.js', '.json', '.tpl']
+            }),
+            alias({
+                entries : {
+                    resolve: ['.js', '.json', '.tpl'],
+                    lib: srcDir
+                 }
+            }),
             handlebarsPlugin({
                 handlebars: {
                     id: 'handlebars',
