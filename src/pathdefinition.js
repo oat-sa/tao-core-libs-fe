@@ -21,6 +21,6 @@ export default {
     'scale.raphael': '/node_modules/@oat-sa/tao-core-libs/dist/raphael/scale.raphael',
     nouislider: '/node_modules/@oat-sa/tao-core-libs/dist/sliders/jquery.nouislider',
     iframeNotifier: '/node_modules/@oat-sa/tao-core-libs/dist/iframeNotifier',
+    select2: '/node_modules/@oat-sa/tao-core-libs/dist/select2',
     lib: '/node_modules/@oat-sa/tao-core-libs/dist',
-    select2: '/node_modules/@oat-sa/tao-core-libs/select2',
 };
