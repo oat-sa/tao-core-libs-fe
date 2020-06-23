@@ -51,10 +51,9 @@ export default inputs.map(input => {
                  extensions: [ '.js', '.json', '.tpl']
             }),
             alias({
-                entries : {
+                entries : Object.assign({
                     resolve: ['.js', '.json', '.tpl'],
-                    lib: srcDir
-                 }
+                 }, aliases)
             }),
             handlebarsPlugin({
                 handlebars: {
