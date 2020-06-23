@@ -15,12 +15,12 @@ export default {
     popper: '/node_modules/popper.js/dist/umd/popper',
     raphael: '/node_modules/raphael/raphael',
     'select2-origin': '/node_modules/select2',
-    select2: '/node_modules/select2',
 
     // locals
     class: '/node_modules/@oat-sa/tao-core-libs/dist/class',
     'scale.raphael': '/node_modules/@oat-sa/tao-core-libs/dist/raphael/scale.raphael',
     nouislider: '/node_modules/@oat-sa/tao-core-libs/dist/sliders/jquery.nouislider',
     iframeNotifier: '/node_modules/@oat-sa/tao-core-libs/dist/iframeNotifier',
-    lib: '/node_modules/@oat-sa/tao-core-libs/dist'
+    lib: '/node_modules/@oat-sa/tao-core-libs/dist',
+    select2: '/node_modules/@oat-sa/tao-core-libs/select2',
 };
