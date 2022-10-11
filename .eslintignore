@@ -1,2 +1,7 @@
 dist/
 node_modules/
+src/calculator/
+src/raphael/
+src/sliders/
+src/unmatrix/
+src/class.js
