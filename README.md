@@ -6,7 +6,8 @@ TAO Frontent Core Libraries
 
 - `npm run build`: put libraries in AMD format into `dist` directory
 - `npm run build:watch`: put libraries in AMD format into `dist` directory and watch for changes
-- `npm run lint` : verify coding rules
+- `npm run lint:src`: check syntax of code
+- `npm run lint:report`: build a syntax check report
 
 ## Shared libraries from npm
 
