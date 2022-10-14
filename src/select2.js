@@ -1,13 +1,11 @@
 import 'select2-origin/select2';
 
 function getUserLanguage() {
-    var documentLang = window.document.documentElement.getAttribute('lang');
-    var documentLocale = documentLang && documentLang.split('-')[0];
-
-    return documentLocale;
+    const documentLang = window.document.documentElement.getAttribute('lang');
+    return documentLang && documentLang.split('-')[0];
 }
 
-var lang = getUserLanguage();
+const lang = getUserLanguage();
 
 switch (lang) {
     case 'ar':
