@@ -32,7 +32,6 @@ import hb from 'handlebars';
 import __ from 'i18n';
 import _ from 'lodash';
 import DOMPurify from 'lib/dompurify/purify';
-import fs from 'fs-extra';
 
 const buildMap = {};
 const extension = '.tpl';
@@ -126,6 +125,7 @@ export default {
 
         if (config.isBuild) {
             //optimization, r.js node.js version
+            // eslint-disable-next-line
             buildMap[name] = fs
                 .readFileSync(req.toUrl(name + ext))
                 .toString()
