@@ -18,6 +18,12 @@ import hb from 'handlebars';
  * Copyright (c) 2022 (original work) Open Assessment Technologies SA ;
  */
 
+/**
+ * Generates the module declaration for a Handlebars template.
+ * @param {string} moduleName - The name of the template's module.
+ * @param {string} compiled - The compiled template.
+ * @returns {string} - Returns the module declaration for a Handlebars template.
+ */
 export default function moduleWriter(moduleName, compiled) {
     return `define('tpl!${moduleName}', ['handlebars'], function(hb){ return hb.template(${compiled}); });`;
 }
