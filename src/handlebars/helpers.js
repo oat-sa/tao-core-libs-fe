@@ -107,9 +107,9 @@ export default function handlebarsHelpers(hb) {
      */
     hb.registerHelper('for', function forHelper(startIndex, stopIndex, increment, options) {
         let ret = '';
-        startIndex = parseInt(startIndex);
-        stopIndex = parseInt(stopIndex);
-        increment = parseInt(increment);
+        startIndex = parseInt(startIndex, 10);
+        stopIndex = parseInt(stopIndex, 10);
+        increment = parseInt(increment, 10);
 
         for (let i = startIndex; i < stopIndex; i += increment) {
             ret += options.fn(_.extend({}, this, { i: i }));
@@ -133,7 +133,12 @@ export default function handlebarsHelpers(hb) {
      * Registers a "get property" helper.
      * It gets the named property from the provided context
      */
-    hb.registerHelper('property', (name, context) => context[name] || '');
+    hb.registerHelper('property', (name, context) => {
+        if (typeof context[name] !== 'undefined') {
+            return new hb.SafeString(context[name]);
+        }
+        return '';
+    });
 
     /**
      * Registers an 'includes' helper.
