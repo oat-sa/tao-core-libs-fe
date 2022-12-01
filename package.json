@@ -15,6 +15,7 @@
         "build": "rollup --config ./build/rollup.config.js",
         "build:watch": "rollup --config ./build/rollup.config.js --watch",
         "lint:src": "eslint -c .eslintrc.js src",
+        "lint:test": "eslint -c .eslintrc.js test",
         "lint:report": "eslint -c .eslintrc.js --output-file eslint_report.json --format json src | true",
         "prepare": "npm run build"
     },

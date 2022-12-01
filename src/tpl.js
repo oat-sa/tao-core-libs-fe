@@ -51,9 +51,9 @@ export default {
         } else {
             req([`text!${name}${ext}`], function (raw) {
                 // Just return the compiled template
-                onload(function () {
+                onload(function (...args) {
                     const compiled = hb.compile(raw);
-                    return compiled.apply(hb, arguments).trim();
+                    return compiled.apply(hb, args).trim();
                 });
             });
         }

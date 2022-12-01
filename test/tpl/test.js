@@ -52,7 +52,7 @@ define([
             foo: 'bar',
             moo: '<strong>bar</strong>'
         });
-        assert.equal(rendering, '<div>' + data.expected + '</div>', 'purified dom rendering ok');
+        assert.equal(rendering, `<div>${data.expected}</div>`, 'purified dom rendering ok');
     });
 
     QUnit.test('join - key value', function(assert) {
@@ -75,7 +75,6 @@ define([
         var rendering = tplProperty({
             data: {id: 0}
         });
-        console.log(rendering);
         assert.equal(rendering, '<span>0</span>', 'property helper rendering ok');
     });
 
