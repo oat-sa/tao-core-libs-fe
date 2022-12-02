@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2019-2022 (original work) Open Assessment Technologies SA ;
  */
 
 import path from 'path';
@@ -59,7 +59,7 @@ export default inputs.map(input => {
             dir: path.join(outputDir, dir),
             format: 'amd'
         },
-        external: ['jquery', 'lodash', 'i18n', 'lib/gamp/gamp', 'handlebars', 'lib/dompurify/purify', 'raphael'],
+        external: ['jquery', 'lodash', 'i18n', 'lib/gamp/gamp', 'handlebars', 'lib/dompurify/purify', 'raphael', 'lib/handlebars/helpers', 'lib/handlebars/moduleWriter'],
         plugins: [
             wildcardExternal(['select2-origin/**']),
             alias({

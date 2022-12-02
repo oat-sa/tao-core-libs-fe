@@ -1,5 +1,6 @@
 dist/
 node_modules/
+environment/
 src/calculator/
 src/raphael/
 src/sliders/
