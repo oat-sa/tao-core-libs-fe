@@ -48,8 +48,8 @@ const CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.s
  *   >>> uuid(8, 16) // 8 character ID (base=16)
  *   "098F4D35"
  *
- * @param len
- * @param radix
+ * @param {number} len
+ * @param {number} radix
  * @returns {*}
  * @private
  */
@@ -63,10 +63,10 @@ function uuid(len, radix) {
         for (let i = 0; i < len; i++) {
             id[i] = chars[0 | (Math.random() * radix)];
         }
-    }
     // rfc4122 form
-    else {
+    } else {
         // rfc4122 requires these characters
+        // eslint-disable-next-line
         id[8] = id[13] = id[18] = id[23] = '-';
         id[14] = '4';
 
