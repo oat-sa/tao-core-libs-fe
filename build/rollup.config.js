@@ -26,7 +26,8 @@ import { copyFile, mkdirp } from 'fs-extra';
 const Handlebars = require('handlebars');
 
 const { srcDir, outputDir, aliases } = require('./path.js');
-let inputs = glob.sync(path.join(srcDir, '**', '*.js'));
+const globPath = p => p.replace(/\\/g, '/');
+let inputs = glob.sync(globPath(path.join(srcDir, '**', '*.js')));
 
 /**
  * class.js cannot be built, because it is not 'use strict' valid
@@ -88,7 +89,7 @@ export default inputs.map(input => {
  * It is asyncronous and it was made with purpose to run parallely with build,
  * because they do not effect each other
  */
-glob(path.join(srcDir, '**', '*.tpl')).then(files => {
+glob(globPath(path.join(srcDir, '**', '*.tpl'))).then(files => {
     files.forEach(async file => {
         const targetFile = path.resolve(outputDir, path.relative(srcDir, file));
         await mkdirp(path.dirname(targetFile));
