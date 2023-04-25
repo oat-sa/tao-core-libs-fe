@@ -80,6 +80,7 @@
         "nyc": "^15.1.0",
         "open-cli": "^7.2.0",
         "popper.js": "1.15.0",
+        "prettier": "^2.8.8",
         "qunit": "^2.19.4",
         "raphael": "2.3.0",
         "require-css": "^0.1.10",
