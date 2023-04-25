@@ -22,8 +22,11 @@ import alias from 'rollup-plugin-alias';
 import handlebarsPlugin from 'rollup-plugin-handlebars-plus';
 import wildcardExternal from '@oat-sa/rollup-plugin-wildcard-external';
 import copy from 'rollup-plugin-copy';
+import istanbul from 'rollup-plugin-istanbul';
 import { copyFile, mkdirp } from 'fs-extra';
 const Handlebars = require('handlebars');
+
+const isDev = process.env.NODE_ENV === 'development';
 
 const { srcDir, outputDir, aliases } = require('./path.js');
 const globPath = p => p.replace(/\\/g, '/');
@@ -40,11 +43,11 @@ inputs = inputs.filter(file => !file.endsWith('class.js'));
  * TODO remove once migrated to hbs >= 3.0.0
  */
 const originalVisitor = Handlebars.Visitor;
-Handlebars.Visitor = function() {
+Handlebars.Visitor = function () {
     return originalVisitor.call(this);
 };
 Handlebars.Visitor.prototype = Object.create(originalVisitor.prototype);
-Handlebars.Visitor.prototype.accept = function() {
+Handlebars.Visitor.prototype.accept = function () {
     try {
         originalVisitor.prototype.accept.apply(this, arguments);
     } catch (e) {}
@@ -58,9 +61,20 @@ export default inputs.map(input => {
         input,
         output: {
             dir: path.join(outputDir, dir),
-            format: 'amd'
+            format: 'amd',
+            sourcemap: isDev
         },
-        external: ['jquery', 'lodash', 'i18n', 'lib/gamp/gamp', 'handlebars', 'lib/dompurify/purify', 'raphael', 'lib/handlebars/helpers', 'lib/handlebars/moduleWriter'],
+        external: [
+            'jquery',
+            'lodash',
+            'i18n',
+            'lib/gamp/gamp',
+            'handlebars',
+            'lib/dompurify/purify',
+            'raphael',
+            'lib/handlebars/helpers',
+            'lib/handlebars/moduleWriter'
+        ],
         plugins: [
             wildcardExternal(['select2-origin/**']),
             alias({
@@ -77,6 +91,7 @@ export default inputs.map(input => {
                 },
                 templateExtension: '.tpl'
             }),
+            ...(process.env.COVERAGE ? [istanbul()] : []),
             copy({
                 targets: [{ src: path.join(srcDir, 'class.js'), dest: outputDir }]
             })
