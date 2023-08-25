@@ -38,22 +38,6 @@ let inputs = glob.sync(globPath(path.join(srcDir, '**', '*.js')));
  */
 inputs = inputs.filter(file => !file.endsWith('class.js'));
 
-/**
- * Support of handlebars 1.3.0
- * TODO remove once migrated to hbs >= 3.0.0
- */
-const originalVisitor = Handlebars.Visitor;
-Handlebars.Visitor = function () {
-    return originalVisitor.call(this);
-};
-Handlebars.Visitor.prototype = Object.create(originalVisitor.prototype);
-Handlebars.Visitor.prototype.accept = function () {
-    try {
-        originalVisitor.prototype.accept.apply(this, arguments);
-    } catch (e) {}
-};
-/* --------------------------------------------------------- */
-
 export default inputs.map(input => {
     const dir = path.dirname(path.relative(srcDir, input));
 
