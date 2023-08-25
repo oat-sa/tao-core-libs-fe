@@ -31,17 +31,17 @@ function hasAccess(windowElt) {
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  * @exports iframeNotifier
  */
-var xDomMessaging = {
+const xDomMessaging = {
     /**
      * Notify the parent window's document
      * @param {String} eventName - the name of the
      * @param {Array} [args] - event arguments
      */
-    parent: function(eventName, args) {
-        _.defer(function() {
+    parent(eventName, args) {
+        _.defer(() => {
             //in next tick for thread safety
             if (hasAccess(window.parent) && window.parent.$) {
-                var _$ = window.parent.$; //parent window jQuery instance
+                const _$ = window.parent.$; //parent window jQuery instance
                 _$(window.parent.document).trigger(eventName, args || []);
             }
         });
@@ -52,11 +52,11 @@ var xDomMessaging = {
      * @param {String} eventName - the name of the
      * @param {Array} [args] - event arguments
      */
-    top: function(eventName, args) {
-        _.defer(function() {
+    top(eventName, args) {
+        _.defer(() => {
             //in next tick for thread safety
             if (hasAccess(window.top) && window.top.$) {
-                var _$ = window.top.$; //parent window jQuery instance
+                const _$ = window.top.$; //parent window jQuery instance
                 _$(window.top.document).trigger(eventName, args || []);
             }
         });
@@ -64,5 +64,3 @@ var xDomMessaging = {
 };
 
 export default xDomMessaging;
-
-

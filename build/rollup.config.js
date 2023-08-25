@@ -13,19 +13,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2019 (original work) Open Assessment Technologies SA ;
+ * Copyright (c) 2019-2022 (original work) Open Assessment Technologies SA ;
  */
 
 import path from 'path';
 import glob from 'glob-promise';
 import alias from 'rollup-plugin-alias';
 import handlebarsPlugin from 'rollup-plugin-handlebars-plus';
+import wildcardExternal from '@oat-sa/rollup-plugin-wildcard-external';
 import copy from 'rollup-plugin-copy';
+import istanbul from 'rollup-plugin-istanbul';
 import { copyFile, mkdirp } from 'fs-extra';
 const Handlebars = require('handlebars');
 
+const isDev = process.env.NODE_ENV === 'development';
+
 const { srcDir, outputDir, aliases } = require('./path.js');
-let inputs = glob.sync(path.join(srcDir, '**', '*.js'));
+const globPath = p => p.replace(/\\/g, '/');
+let inputs = glob.sync(globPath(path.join(srcDir, '**', '*.js')));
 
 /**
  * class.js cannot be built, because it is not 'use strict' valid
@@ -40,10 +45,22 @@ export default inputs.map(input => {
         input,
         output: {
             dir: path.join(outputDir, dir),
-            format: 'amd'
+            format: 'amd',
+            sourcemap: isDev
         },
-        external: ['jquery', 'lodash', 'i18n', 'lib/gamp/gamp', 'handlebars', 'lib/dompurify/purify', 'raphael'],
+        external: [
+            'jquery',
+            'lodash',
+            'i18n',
+            'lib/gamp/gamp',
+            'handlebars',
+            'lib/dompurify/purify',
+            'raphael',
+            'lib/handlebars/helpers',
+            'lib/handlebars/moduleWriter'
+        ],
         plugins: [
+            wildcardExternal(['select2-origin/**']),
             alias({
                 resolve: ['.js', '.json', '.tpl'],
                 ...aliases
@@ -58,6 +75,7 @@ export default inputs.map(input => {
                 },
                 templateExtension: '.tpl'
             }),
+            ...(process.env.COVERAGE ? [istanbul()] : []),
             copy({
                 targets: [{ src: path.join(srcDir, 'class.js'), dest: outputDir }]
             })
@@ -70,7 +88,7 @@ export default inputs.map(input => {
  * It is asyncronous and it was made with purpose to run parallely with build,
  * because they do not effect each other
  */
-glob(path.join(srcDir, '**', '*.tpl')).then(files => {
+glob(globPath(path.join(srcDir, '**', '*.tpl'))).then(files => {
     files.forEach(async file => {
         const targetFile = path.resolve(outputDir, path.relative(srcDir, file));
         await mkdirp(path.dirname(targetFile));

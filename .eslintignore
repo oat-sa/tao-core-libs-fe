@@ -1,0 +1,8 @@
+dist/
+node_modules/
+environment/
+src/calculator/
+src/raphael/
+src/sliders/
+src/unmatrix/
+src/class.js
