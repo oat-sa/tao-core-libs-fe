@@ -145,7 +145,7 @@ export default function handlebarsHelpers(hb) {
      * It checks if value is in array.
      */
     hb.registerHelper('includes', function includesHelper(haystack, needle, options) {
-        if (_.contains(haystack, needle)) {
+        if (_.includes(haystack, needle)) {
             return options.fn(this);
         }
     });
