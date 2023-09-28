@@ -1,6 +1,6 @@
 {
     "name": "@oat-sa/tao-core-libs",
-    "version": "0.5.3",
+    "version": "1.0.0",
     "description": "TAO Frontend Core Libraries",
     "files": [
         "dist",
