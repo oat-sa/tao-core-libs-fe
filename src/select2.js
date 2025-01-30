@@ -136,6 +136,8 @@ switch (lang) {
 /* usage: `$element.select2({ writingMode: 'vertical-rl',...  })` */
 /* -------------------------------------------------- */
 
+/* eslint-disable */
+
 // https://github.com/select2/select2/blob/3.5.1/select2.js  -> positionDropdown
 function positionDropdownVerticalRl() {
     var $dropdown = this.dropdown,
@@ -336,3 +338,5 @@ function extendSelect2Instance() {
 
     $.fn.select2 = extendedSelect2;
 }(jQuery));
+
+/* eslint-enable */
