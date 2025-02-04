@@ -315,7 +315,7 @@ function extendSelect2Instance() {
 
     const extendedSelect2 = function (...args) {
         const isConstructor = (args.length === 0 || typeof(args[0]) === "object");
-        const isVerticalConstructor = isConstructor && args[0]?.writingMode === 'vertical-rl';
+        const isVerticalConstructor = isConstructor && args[0] && args[0].writingMode === 'vertical-rl';
         if (isVerticalConstructor) {
             args[0] = Object.assign({}, args[0], {
                 containerCssClass: `${args[0].containerCssClass || ''} writing-mode-vertical-rl`,
