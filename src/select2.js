@@ -233,7 +233,6 @@ function positionDropdownVerticalRl() {
         this.container.removeClass("select2-drop-above");
         $dropdown.removeClass("select2-drop-above");
     }
-    // css = $.extend(css, evaluate(this.opts.dropdownCss, this.opts.element));
 
     $dropdown.css(css);
 }
