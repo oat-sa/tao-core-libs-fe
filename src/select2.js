@@ -1,5 +1,9 @@
 import 'select2-origin/select2';
 
+/* ------------------------------ */
+/* Import locales                 */
+/* ------------------------------ */
+
 function getUserLanguage() {
     const documentLang = window.document.documentElement.getAttribute('lang');
     return documentLang && documentLang.split('-')[0];
@@ -126,3 +130,212 @@ switch (lang) {
         import('select2-origin/select2_locale_zh-CN');
         break;
 }
+
+/* -------------------------------------------------- */
+/* Extend with support for `writing-mode: vertical-rl`*/
+/* usage: `$element.select2({ writingMode: 'vertical-rl',...  })` */
+/* -------------------------------------------------- */
+
+/* eslint-disable */
+
+// https://github.com/select2/select2/blob/3.5.1/select2.js  -> positionDropdown
+function positionDropdownVerticalRl() {
+    var $dropdown = this.dropdown,
+        offset = this.container.offset(),
+        height = this.container.outerHeight(false),
+        width = this.container.outerWidth(false),
+        dropHeight = $dropdown.outerHeight(false),
+        dropWidth = $dropdown.outerWidth(false),
+        $window = $(window),
+        windowWidth = $window.width(),
+        windowHeight = $window.height(),
+        viewportRight = $window.scrollLeft() + windowWidth,
+        viewportBottom = $window.scrollTop() + windowHeight,
+        dropTop = offset.top,
+        dropLeft = offset.left,
+        enoughRoomToTheLeft = dropLeft - dropWidth >= $window.scrollLeft(),
+        enoughRoomToTheRight = (offset.left + width + dropWidth) <= viewportRight,
+        enoughRoomOnBottom = dropTop + dropHeight <= viewportBottom,
+        toTheRightNow = $dropdown.hasClass("select2-drop-above"),
+        bodyOffset,
+        toTheRight,
+        changeDirection,
+        css,
+        resultsListNode;
+
+    // above = to the right; below = to the left
+    // always prefer the current above/below alignment, unless there is not enough room
+    if (toTheRightNow) {
+        toTheRight = true;
+        if (!enoughRoomToTheRight && enoughRoomToTheLeft) {
+            changeDirection = true;
+            toTheRight = false;
+        }
+    } else {
+        toTheRight = false;
+        if (!enoughRoomToTheLeft && enoughRoomToTheRight) {
+            changeDirection = true;
+            toTheRight = true;
+        }
+    }
+
+    //if we are changing direction we need to get positions when dropdown is hidden;
+    if (changeDirection) {
+        $dropdown.hide();
+        offset = this.container.offset();
+        height = this.container.outerHeight(false);
+        width = this.container.outerWidth(false);
+        dropHeight = $dropdown.outerHeight(false);
+        viewportRight = $window.scrollLeft() + windowWidth;
+        viewportBottom = $window.scrollTop() + windowHeight;
+        dropTop = offset.top;
+        dropLeft = offset.left;
+        dropWidth = $dropdown.outerWidth(false);
+        enoughRoomOnBottom = dropTop + dropHeight <= viewportBottom;
+        $dropdown.show();
+
+        // fix so the cursor does not move to the left within the search-textbox in IE
+        this.focusSearch();
+    }
+
+    if (this.opts.dropdownAutoWidth) {
+        //not implemented
+    }
+    else {
+        this.container.removeClass('select2-drop-auto-width');
+    }
+
+    // fix positioning when body has an offset and is not position: static
+    if (this.body.css('position') !== 'static') {
+        bodyOffset = this.body.offset();
+        dropTop -= bodyOffset.top;
+        dropLeft -= bodyOffset.left;
+    }
+
+    if (!enoughRoomOnBottom) {
+        dropTop = offset.top + this.container.outerHeight(false) - dropHeight;
+    }
+
+    css =  {
+        top: dropTop,
+        height: height
+    };
+
+    if (toTheRight) {
+        css.left = offset.left + width;
+        css.right = 'auto';
+        this.container.addClass("select2-drop-above");
+        $dropdown.addClass("select2-drop-above");
+    }
+    else {
+        css.left = offset.left - dropWidth;
+        css.right = 'auto';
+        this.container.removeClass("select2-drop-above");
+        $dropdown.removeClass("select2-drop-above");
+    }
+
+    $dropdown.css(css);
+}
+
+// https://github.com/select2/select2/blob/3.5.1/select2.js  -> ensureHighlightVisible
+function ensureHighlightVisibleVerticalRl() {
+    var results = this.results, children, index, child, hl, rl, x, more, rightOffset;
+
+    index = this.highlight();
+
+    if (index < 0) return;
+
+    if (index == 0) {
+
+        // if the first element is highlighted scroll all the way to the top,
+        // that way any unselectable headers above it will also be scrolled
+        // into view
+
+        results.scrollLeft(0);
+        return;
+    }
+
+    children = this.findHighlightableChoices().find('.select2-result-label');
+
+    child = $(children[index]);
+
+    hl = ((child.offset() || {}).left || 0);
+
+    rightOffset = hl + child.outerWidth(true);
+
+    // if this is the last child lets also make sure select2-more-results is visible
+    if (index === children.length - 1) {
+        more = results.find("li.select2-more-results");
+        if (more.length > 0) {
+            hl = more.offset().left;
+        }
+    }
+
+    rl = results.offset().left - 1;  //minus small margin, otherwise will autoscroll to next option if mouse is on the left border
+    if (hl < rl) {
+        results.scrollLeft(results.scrollLeft() + (hl - rl));
+    }
+    x = rightOffset - (results.offset().left + results.outerWidth(false));
+
+    // make sure the right of the element is visible
+    if (x > 0 && child.css('display') != 'none' ) {
+        results.scrollLeft(results.scrollLeft() + x); // x is positive, scrollLeft is negative
+    }
+}
+
+// https://github.com/select2/select2/blob/3.5.1/select2.js  -> this.search.on("keydown",...)
+function onSearchKeydownVerticalRl(e) {
+    if (!this.isInterfaceEnabled()) return;
+
+    const keyLeft = 37;
+    const keyRight = 39;
+    switch (e.which) {
+        case keyLeft:
+        case keyRight:
+            this.moveHighlight(e.which === keyRight ? -1 : 1);
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+    }
+}
+
+function extendSelect2Instance() {
+    this.container.css('height', this.opts.width); //supports only defined size: `{width: 'fit-content'}`
+    this.container.css('width', '');
+
+    this.positionDropdown = positionDropdownVerticalRl;
+    this.ensureHighlightVisible = ensureHighlightVisibleVerticalRl;
+
+    this.search.on('keydown', this.bind(onSearchKeydownVerticalRl));
+}
+
+(function ($, undefined) {
+    const originalSelect2 = $.fn.select2;
+
+    const extendedSelect2 = function (...args) {
+        const isConstructor = (args.length === 0 || typeof(args[0]) === "object");
+        const isVerticalConstructor = isConstructor && args[0] && args[0].writingMode === 'vertical-rl';
+        if (isVerticalConstructor) {
+            args[0] = Object.assign({}, args[0], {
+                containerCssClass: `${args[0].containerCssClass || ''} writing-mode-vertical-rl`,
+                dropdownCssClass: `${args[0].dropdownCssClass || ''} writing-mode-vertical-rl`});
+        }
+
+        const result = originalSelect2.bind(this)(...args);
+
+        if (isVerticalConstructor) {
+            const api = $(this).data('select2');
+            extendSelect2Instance.bind(api)();
+        }
+        return result;
+    };
+
+
+    for (const key in originalSelect2) {
+        extendedSelect2[key] = originalSelect2[key]; //defaults, locales, ajaxDefaults
+    }
+
+    $.fn.select2 = extendedSelect2;
+}(jQuery));
+
+/* eslint-enable */
