@@ -25,6 +25,15 @@ import DOMPurify from 'lib/dompurify/purify';
  * @param {Handlebars} hb - The Handlebars entry point.
  */
 export default function handlebarsHelpers(hb) {
+
+    /**
+     * True when the translated string likely contains HTML ruby annotation
+     * (from i18n {ruby}/{/ruby} → tags, or literal &lt;ruby&gt; in PO).
+     * Such output must be a SafeString so Handlebars does not escape markup;
+     * it is still passed through DOMPurify.
+     */
+    const RUBY_HTML = /<\s*(?:ruby|rt|rp|rb)\b/i;
+
     /**
      * Registers an i18n helper.
      *
@@ -33,7 +42,13 @@ export default function handlebarsHelpers(hb) {
      * <p>{{__ 'Text to translate'}}</p>
      * ```
      */
-    hb.registerHelper('__', key => __(key));
+    hb.registerHelper('__', function (context) {
+        const translated = __(context);
+        if (typeof translated === 'string' && RUBY_HTML.test(translated)) {
+            return new hb.SafeString(DOMPurify.sanitize(translated));
+        }
+        return translated;
+    });
 
     /**
      * Registers a DOMPurify helper for filtering variable to render as HTML.
