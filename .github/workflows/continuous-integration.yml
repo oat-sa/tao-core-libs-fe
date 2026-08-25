@@ -5,7 +5,9 @@ name: Continuous integration
 
 on:
     pull_request:
-        branches: [develop]
+        branches:
+            - develop
+            - feature/*
 
 jobs:
     code-check:
