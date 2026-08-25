@@ -7,7 +7,7 @@ on:
     pull_request:
         branches:
             - develop
-            - feature/*
+            - feature/**
 
 jobs:
     code-check:
