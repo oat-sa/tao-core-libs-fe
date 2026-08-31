@@ -83,14 +83,16 @@ define([
     QUnit.test('__p helper', function(assert) {
         var originalPlural = __.p;
 
-        __.p = function(singular, plural, count) {
-            return count === 1 ? singular.replace('%d', count) : plural.replace('%d', count);
-        };
+        try {
+            __.p = function(singular, plural, count) {
+                return count === 1 ? singular.replace('%d', count) : plural.replace('%d', count);
+            };
 
-        assert.equal(tplPlural({ count: 1 }), '1 test', '__p helper uses singular form');
-        assert.equal(tplPlural({ count: 2 }), '2 tests', '__p helper uses plural form');
-
-        __.p = originalPlural;
+            assert.equal(tplPlural({ count: 1 }), '1 test', '__p helper uses singular form');
+            assert.equal(tplPlural({ count: 2 }), '2 tests', '__p helper uses plural form');
+        } finally {
+            __.p = originalPlural;
+        }
     });
 
 });
