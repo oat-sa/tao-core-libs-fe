@@ -34,6 +34,14 @@ export default function handlebarsHelpers(hb) {
      */
     const RUBY_HTML = /<\s*(?:ruby|rt|rp|rb)\b/i;
 
+    function renderTranslation(translated) {
+        if (typeof translated === 'string' && RUBY_HTML.test(translated)) {
+            return new hb.SafeString(DOMPurify.sanitize(translated));
+        }
+
+        return translated;
+    }
+
     /**
      * Registers an i18n helper.
      *
@@ -43,11 +51,21 @@ export default function handlebarsHelpers(hb) {
      * ```
      */
     hb.registerHelper('__', function (context) {
-        const translated = __(context);
-        if (typeof translated === 'string' && RUBY_HTML.test(translated)) {
-            return new hb.SafeString(DOMPurify.sanitize(translated));
-        }
-        return translated;
+        return renderTranslation(__(context));
+    });
+
+    /**
+     * Registers a plural-aware i18n helper.
+     *
+     * @example
+     * ```html
+     * <p>{{__p "%d test" "%d tests" count}}</p>
+     * ```
+     */
+    hb.registerHelper('__p', function (...args) {
+        args.pop();
+
+        return renderTranslation(__.p(...args));
     });
 
     /**

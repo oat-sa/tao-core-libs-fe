@@ -20,11 +20,13 @@
  * Test tpl
  */
 define([
+    'i18n',
     'tpl!test/tpl/samples/dompurify_script',
     'tpl!test/tpl/samples/join_keyvalue',
     'tpl!test/tpl/samples/property',
-    'tpl!test/tpl/samples/join_array'
-], function(tplDomPurifyScript, tplJoinKeyValue, tplProperty,  tplJoinArray) {
+    'tpl!test/tpl/samples/join_array',
+    'tpl!test/tpl/samples/plural'
+], function(__, tplDomPurifyScript, tplJoinKeyValue, tplProperty, tplJoinArray, tplPlural) {
     'use strict';
 
     QUnit.module('registered handlers');
@@ -76,6 +78,21 @@ define([
             data: {id: 0}
         });
         assert.equal(rendering, '<span>0</span>', 'property helper rendering ok');
+    });
+
+    QUnit.test('__p helper', function(assert) {
+        var originalPlural = __.p;
+
+        try {
+            __.p = function(singular, plural, count) {
+                return count === 1 ? singular.replace('%d', count) : plural.replace('%d', count);
+            };
+
+            assert.equal(tplPlural({ count: 1 }), '1 test', '__p helper uses singular form');
+            assert.equal(tplPlural({ count: 2 }), '2 tests', '__p helper uses plural form');
+        } finally {
+            __.p = originalPlural;
+        }
     });
 
 });
